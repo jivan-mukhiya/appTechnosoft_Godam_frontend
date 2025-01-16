@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IoMenu, IoClose } from "react-icons/io5"; // Import the icons
+import { IoMenu, IoClose, IoHome, IoList, IoPerson, IoStorefrontSharp, IoBagCheck, IoCashSharp, IoChevronDownOutline, IoChevronUp, IoPeople, IoStatsChartSharp, IoPersonAdd, IoAlbums } from "react-icons/io5"; // Import the icons
 import LinkUtils from "../Utils/LinkUtils";
 
 function SideBar() {
@@ -14,7 +14,7 @@ function SideBar() {
   return (
     <nav className="flex">
       <div
-        className={`bg-gray-800 text-white ${isOpen ? "w-64" : "w-16"} transition-all duration-300 h-screen space-y-6 px-2 py-7`}
+        className={`bg-gray-800 text-white ${isOpen ? "w-64" : "w-16"} transition-all duration-300 h-screen space-y-6 px-2 py-7 overflow-y-auto`}
       >
         {/* Sidebar toggle button */}
         <div className="flex justify-between items-center">
@@ -25,9 +25,10 @@ function SideBar() {
         </div>
 
         {/* NavUtils component for dynamic navigation */}
-        <ul className={`space-y-4 ${isOpen ? "" : "hidden"}`}>
+        <ul className={`space-y-4  ${isOpen ? "" : "hidden"}`}>
           <li>
             <LinkUtils
+            icon={IoHome}
               name="Home"
               to="/home"
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
@@ -35,6 +36,7 @@ function SideBar() {
           </li>
           <li>
             <LinkUtils
+            icon={IoList}
               name="Category"
               to="/category"
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
@@ -42,6 +44,7 @@ function SideBar() {
           </li>
           <li>
             <LinkUtils
+            icon={IoPerson}
               name="Customer"
               to="/customer"
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
@@ -49,6 +52,7 @@ function SideBar() {
           </li>
           <li>
             <LinkUtils
+            icon={IoStorefrontSharp}
               name="Product"
               to="/product"
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
@@ -57,6 +61,7 @@ function SideBar() {
 
           <li>
             <LinkUtils
+            icon={IoBagCheck}
               name="Order"
               to="/order"
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
@@ -65,6 +70,7 @@ function SideBar() {
 
           <li>
             <LinkUtils
+            icon={IoCashSharp}
               name="Payment"
               to="/payment"
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
@@ -75,22 +81,25 @@ function SideBar() {
           <li>
             <button
               onClick={() => setEmployeeDropdown(!employeeDropdown)}
-              className="w-full text-white hover:bg-gray-700 px-3 py-2 rounded-md flex justify-between items-center"
-            >
+              className="text-white hover:bg-gray-700 px-3 py-2 rounded-md flex items-center gap-3 text-sm font-medium w-full"
+              >
+              <IoPeople className="w-5 h-5" />
               Employee
-              <span className="ml-2">{employeeDropdown ? "▲" : "▼"}</span>
+              <span className="ml-auto">{employeeDropdown ? <IoChevronUp className="w-5 h-5"/> : <IoChevronDownOutline className="w-5 h-5"/>}</span>
             </button>
             {employeeDropdown && (
               <ul className="pl-6 space-y-2">
                 <li>
                   <LinkUtils
-                    name="Employee List"
-                    to="/employee/list"
+                  icon={IoPersonAdd}
+                    name="Add Employee"
+                    to="/employee/add"
                     className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
                   />
                 </li>
                 <li>
                   <LinkUtils
+                  icon={IoAlbums}
                     name="Employee Details"
                     to="/employee/details"
                     className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
@@ -104,10 +113,12 @@ function SideBar() {
           <li>
             <button
               onClick={() => setSalesDropdown(!salesDropdown)}
-              className="w-full text-white hover:bg-gray-700 px-3 py-2 rounded-md flex justify-between items-center"
+              className="text-white hover:bg-gray-700 px-3 py-2 rounded-md flex items-center gap-3 text-sm font-medium w-full"
             >
+              <IoStatsChartSharp />
+
               Sales
-              <span className="ml-2">{salesDropdown ? "▲" : "▼"}</span>
+              <span className="ml-auto">{salesDropdown ? <IoChevronUp className="w-5 h-5"/> : <IoChevronDownOutline className="w-5 h-5"/>}</span>
             </button>
             {salesDropdown && (
               <ul className="pl-6 space-y-2">

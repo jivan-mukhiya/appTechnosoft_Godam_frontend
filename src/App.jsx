@@ -6,6 +6,7 @@ import LoginForm from "./Component/Admin/LoginForm";
 import { useState } from "react";
 import Category from "./Component/Admin/Category";
 import Product from "./Component/Admin/Product";
+import EmployeeList from "./Component/Employee/EmployeeList";
 
 function App() {
   const [loginState, setLoginState] = useState(false); // False by default, user is not logged in
@@ -36,6 +37,7 @@ function App() {
               <Route exact path="/home" element={<Home />} />
               <Route exact path="/category" element={<Category />} />
               <Route exact path="/product" element={<Product />} />
+              <Route exact path="/employee/add" element={<EmployeeList />} />
               <Route path="/logout" element={<Navigate to="/login" replace />} /> {/* Redirect to login on logout */}
               <Route path="*" element={<Navigate to="/home" />} /> {/* Redirect unknown paths */}
             </Routes>

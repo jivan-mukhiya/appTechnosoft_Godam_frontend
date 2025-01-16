@@ -33,7 +33,7 @@ function Product() {
     (product.name.toLowerCase().includes(search.toLowerCase())) ||
     (product.categoryName.toLowerCase().includes(search.toLowerCase())) ||
     (String(product.price).toLowerCase().includes(search.toLowerCase())) // Convert price to string
-  );
+  ); 
   
 
   return (
