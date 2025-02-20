@@ -3,7 +3,7 @@ import { IoMenu, IoClose, IoHome, IoList, IoPerson, IoStorefrontSharp, IoBagChec
 import LinkUtils from "../Utils/LinkUtils";
 
 function SideBar() {
-  const [isOpen, setIsOpen] = useState(false); // Manage the sidebar state
+  const [isOpen, setIsOpen] = useState(true); // Manage the sidebar state
   const [employeeDropdown, setEmployeeDropdown] = useState(false); // Manage employee dropdown state
   const [salesDropdown, setSalesDropdown] = useState(false); // Manage sales dropdown state
 
@@ -64,6 +64,15 @@ function SideBar() {
             icon={IoBagCheck}
               name="Order"
               to="/order"
+              className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
+            />
+          </li>
+
+          <li>
+            <LinkUtils
+            icon={IoBagCheck}
+              name="AddOrder"
+              to="/AddOrder"
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
             />
           </li>
