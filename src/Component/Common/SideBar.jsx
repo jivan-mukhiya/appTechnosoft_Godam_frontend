@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { IoMenu, IoClose, IoHome, IoList, IoPerson, IoStorefrontSharp, IoBagCheck, IoCashSharp, IoChevronDownOutline, IoChevronUp, IoPeople, IoStatsChartSharp, IoPersonAdd, IoAlbums } from "react-icons/io5"; // Import the icons
 import LinkUtils from "../Utils/LinkUtils";
 
-function SideBar() {
+function SideBar({ userRole }) {
   const [isOpen, setIsOpen] = useState(true); // Manage the sidebar state
   const [employeeDropdown, setEmployeeDropdown] = useState(false); // Manage employee dropdown state
   const [salesDropdown, setSalesDropdown] = useState(false); // Manage sales dropdown state
@@ -34,6 +35,10 @@ function SideBar() {
               className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
             />
           </li>
+
+          {/* Admin-specific items */}
+          {userRole === "ADMIN" && (
+            <>
           <li>
             <LinkUtils
             icon={IoList}
@@ -148,6 +153,30 @@ function SideBar() {
               </ul>
             )}
           </li>
+          </>
+          )}
+
+
+          {/* If role is not Admin, other user-specific menu items go here */}
+          {userRole === "SALES" && (
+            <li>
+              <LinkUtils
+                name="Sales Dashboard"
+                to="/sales/dashboard"
+                className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
+              />
+            </li>
+          )}
+
+          {userRole === "EMPLOYEE" && (
+            <li>
+              <LinkUtils
+                name="Employee Profile"
+                to="/employee/profile"
+                className="text-white hover:bg-gray-700 px-3 py-2 rounded-md"
+              />
+            </li>
+          )}
 
         </ul>
       </div>

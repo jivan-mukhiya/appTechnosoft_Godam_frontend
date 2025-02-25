@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import Button from "../Common/Button";
@@ -13,7 +13,7 @@ function LoginForm({ onLoginSuccess }) {
   });
 
   const [error, setError] = useState(""); // State to store error message
-  const navigate = useNavigate(); // useNavigate hook
+  // const navigate = useNavigate(); // useNavigate hook
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,12 +29,18 @@ function LoginForm({ onLoginSuccess }) {
       const response = await axios.post("http://localhost:9000/user/login", user);
 
       // Check if the response contains user data (successful login)
-      if (response.data) {
+      if (response.data.userRole && response.data) {
         console.log("Login successful");
-        onLoginSuccess(); // Notify parent component about successful login
-        navigate("/"); // Redirect to Home page
-      } else {
+        const { userRole, username, password } = response.data;// Assuming API returns role only
+       // Store the necessary data in localStorage
+       localStorage.setItem("role", userRole);
+       localStorage.setItem("username", username); // Store username if needed
+       localStorage.setItem("password", password); // Store password if needed
+        onLoginSuccess(userRole);  // Notify parent component about successful login
+       
+      } else {  
         setError("Invalid credentials"); // Show error if login fails
+        
       }
     } catch (err) {
       setError("Error logging in. Please try again later."); // Handle API errors

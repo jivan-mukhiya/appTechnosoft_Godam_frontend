@@ -1,7 +1,7 @@
 import Button from "../Common/Button";
 import FormUtils from "../Utils/FormUtils";
 
-function EmployeeList() {
+function AddEmployee() {
   return (
     <div className="min-h-screen flex pt-16 justify-center ">
       <form className="w-[80%] space-y-6">
@@ -44,4 +44,4 @@ function EmployeeList() {
   );
 }
 
-export default EmployeeList;
+export default AddEmployee;

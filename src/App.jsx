@@ -3,61 +3,102 @@ import SideBar from "./Component/Common/SideBar";
 import Home from "./Component/Admin/Home";
 import TopSideBar from "./Component/Common/TopSideBar";
 import LoginForm from "./Component/Admin/LoginForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Category from "./Component/Admin/Category";
 import Product from "./Component/Admin/Product";
 import Customer from "./Component/Admin/Customer";
-import EmployeeList from "./Component/Employee/EmployeeList";
 import Order from "./Component/Admin/Order";
 import AddOrderForm from "./Component/Admin/AddOrderForm";
+import SalesDashboard from "./Component/Sales/SalesDashboard";
+import EmployeeDashboard from "./Component/Employee/EmployeeDashboard";
+import AddEmployee from "./Component/Employee/AddEmployee";
 
 function App() {
   const [loginState, setLoginState] = useState(false); // False by default, user is not logged in
+  const [userRole, setUserRole] = useState(null);
 
-  const loginChange = () => {
-    setLoginState(true); // Update login state to true upon successful login
+  useEffect(() => {
+    const userRole = localStorage.getItem("role");
+    if (userRole) {
+      setUserRole(userRole);
+      setLoginState(true);
+    }
+  }, []);
+  
+
+  
+  const loginChange = (userRole) => {
+    setUserRole(userRole);
+    setLoginState(true);
   };
 
   const handleLogout = () => {
-    setLoginState(false); // Set loginState to false when logging out
+    setLoginState(false);
+    setUserRole(null);
+    localStorage.removeItem("role");
   };
-
   return (
     <Router>
       {loginState ? (
-        // Authenticated Layout
-        <aside className="flex bg-stone-200 h-screen">
-          {/* Sidebar */}
-          <SideBar />
+        <aside className="flex bg-stone-200 h-screen ">
+          {/* Sidebar with dynamic menu based on userRole */}
+          <SideBar userRole={userRole} />
 
-          {/* Main Content */}
           <div className="p-0.5 flex-1 h-screen overflow-y-auto">
-            {/* Top Bar */}
+            {/* Top Navigation Bar */}
             <TopSideBar loginState={loginState} onLogout={handleLogout} />
 
-            {/* Routes */}
+            {/* Role-based routing */}
             <Routes>
-              <Route exact path="/home" element={<Home />} />
-              <Route exact path="/category" element={<Category />} />
-              <Route exact path="/product" element={<Product />} />
-              <Route exact path="/customer" element={<Customer/>}/>
-              <Route exact path="/order" element={<Order/>}/>
-              <Route exact path="/addorder" element={<AddOrderForm/>}/>
-              <Route exact path="/employee/add" element={<EmployeeList />} />
-              <Route path="/logout" element={<Navigate to="/login" replace />} /> {/* Redirect to login on logout */}
-              <Route path="*" element={<Navigate to="/home" />} /> {/* Redirect unknown paths */}
+              {/* Common Dashboard Route */}
+              <Route
+                exact
+                path="/dashboard"
+                element={
+                  userRole === "ADMIN" ? <Home /> :
+                  userRole === "SALES" ? <SalesDashboard /> :
+                  userRole === "EMPLOYEE" ? <EmployeeDashboard /> :
+                  <Navigate to="/login" />
+                }
+              />
+
+              {/* Admin Routes */}
+              {userRole === "ADMIN" && (
+                <>
+                  <Route exact path="/category" element={<Category />} />
+                  <Route exact path="/product" element={<Product />} />
+                  <Route exact path="/customer" element={<Customer />} />
+                  <Route exact path="/order" element={<Order />} />
+                  <Route exact path="/addorder" element={<AddOrderForm />} />
+                  <Route exact path="/employee/add" element={<AddEmployee />} />
+                </>
+              )}
+
+              {/* Sales Routes */}
+              {userRole === "SALES" && (
+                <>
+                  <Route exact path="/order" element={<Order />} />
+                  <Route exact path="/addorder" element={<AddOrderForm />} />
+                </>
+              )}
+
+              {/* Employee Routes */}
+              {userRole === "EMPLOYEE" && (
+                <>
+                  <Route exact path="/profile" element={<EmployeeDashboard />} />
+                </>
+              )}
+
+              {/* Default redirect based on role */}
+              <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
           </div>
         </aside>
       ) : (
-        // Login Page Layout (No Sidebar or Top Bar)
+        // Login Page
         <Routes>
-          <Route
-            exact
-            path="/login"
-            element={<LoginForm onLoginSuccess={loginChange} />}
-          />
-          <Route path="*" element={<Navigate to="/login"/>} /> {/* Redirect unknown paths */}
+          <Route exact path="/login" element={<LoginForm onLoginSuccess={loginChange} />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       )}
     </Router>

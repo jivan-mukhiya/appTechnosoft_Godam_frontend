@@ -5,13 +5,13 @@ import Button from "./Button";
 
 function TopSideBar({ onLogout }) {
   return (
-    <header className="bg-gray-800 text-white p-4">
-      <div className="flex items-center justify-between">
+    <header className="bg-gray-800 text-white p-4 w-full">
+      <div className="flex flex-col md:flex-row items-center justify-between">
         {/* Logo or Title */}
-        <div className="text-2xl font-bold">GODAM</div>
+        <div className="text-2xl font-bold mb-2 md:mb-0">GODAM</div>
 
         {/* Search Bar */}
-        <div className="flex-grow flex items-center justify-center">
+        <div className="w-full md:w-auto flex justify-center md:flex-grow">
           <Search
             className="bg-gray-200 text-gray-700 px-4 py-2 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-green-500 ml-96"
             name="Search"
@@ -21,7 +21,7 @@ function TopSideBar({ onLogout }) {
         </div>
 
         {/* Logout Button */}
-        <div className="flex items-center space-x-4">
+        <div className="mt-2 md:mt-0">
           <Button
             onClick={onLogout} // Trigger the logout function
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full flex items-center space-x-2"
